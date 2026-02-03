@@ -13,7 +13,7 @@ class SplashView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<SplashViewModel>(
       model: SplashViewModel(),
-      onModelReady: (SplashViewModel model) async {
+      onModelReady: ( model) async {
         await model.initModel();
 
         // Navigasi setelah initModel selesai

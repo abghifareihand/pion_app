@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "329990858740",
+    "project_id": "adr-pion",
+    "storage_bucket": "adr-pion.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329990858740:android:81d5ac24e0d79e2ccffba1",
+        "android_client_info": {
+          "package_name": "com.adrprogramming.pion_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3wjidhMLvMPqcyOGs9DluyeDH8w9KCoQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

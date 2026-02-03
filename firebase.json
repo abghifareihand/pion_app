@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"adr-pion","appId":"1:329990858740:android:81d5ac24e0d79e2ccffba1","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"adr-pion","configurations":{"android":"1:329990858740:android:81d5ac24e0d79e2ccffba1","ios":"1:329990858740:ios:f71a58eee34a0e65cffba1"}}}}}}

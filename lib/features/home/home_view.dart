@@ -1,3 +1,4 @@
+import 'package:pion_app/core/services/notif_service.dart';
 import 'package:provider/provider.dart';
 import 'package:pion_app/core/api/auth_api.dart';
 import 'package:pion_app/core/assets/assets.gen.dart';
@@ -15,13 +16,14 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView<HomeViewModel>(
-      model: HomeViewModel(
-        authApi: Provider.of<AuthApi>(context),
-      ),
+      model: HomeViewModel(authApi: Provider.of<AuthApi>(context)),
       onModelReady: (HomeViewModel model) => model.initModel(),
       onModelDispose: (HomeViewModel model) => model.disposeModel(),
       builder: (BuildContext context, HomeViewModel model, _) {
-        return Scaffold(backgroundColor: AppColors.white, body: _buildBody(context, model));
+        return Scaffold(
+          backgroundColor: AppColors.white,
+          body: _buildBody(context, model),
+        );
       },
     );
   }
@@ -39,7 +41,11 @@ Widget _buildBody(BuildContext context, HomeViewModel model) {
           padding: const EdgeInsets.only(left: 24, right: 24, top: 12),
           child: Row(
             children: [
-              SvgPicture.asset(Assets.svg.iconPerson.path, width: 34, height: 34),
+              SvgPicture.asset(
+                Assets.svg.iconPerson.path,
+                width: 34,
+                height: 34,
+              ),
               const SizedBox(width: 4.0),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +55,10 @@ Widget _buildBody(BuildContext context, HomeViewModel model) {
                     height: 12,
                     isLoading: model.isBusy,
                     text: model.name,
-                    style: AppFonts.medium.copyWith(color: AppColors.black, fontSize: 12),
+                    style: AppFonts.medium.copyWith(
+                      color: AppColors.black,
+                      fontSize: 12,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   ShimmerName(
@@ -68,6 +77,7 @@ Widget _buildBody(BuildContext context, HomeViewModel model) {
             ],
           ),
         ),
+        const SizedBox(height: 32.0),
       ],
     ),
   );
@@ -112,8 +122,20 @@ Widget menuButton({
             ),
           ),
           const SizedBox(height: 10.0),
-          Text(title, style: AppFonts.medium.copyWith(color: AppColors.black, fontSize: 14)),
-          Text(subtitle, style: AppFonts.medium.copyWith(color: AppColors.gray, fontSize: 12)),
+          Text(
+            title,
+            style: AppFonts.medium.copyWith(
+              color: AppColors.black,
+              fontSize: 14,
+            ),
+          ),
+          Text(
+            subtitle,
+            style: AppFonts.medium.copyWith(
+              color: AppColors.gray,
+              fontSize: 12,
+            ),
+          ),
         ],
       ),
     ),
