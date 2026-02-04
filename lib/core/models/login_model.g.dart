@@ -24,10 +24,22 @@ LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) =>
       data: LoginData.fromJson(json['data'] as Map<String, dynamic>),
     );
 
+Map<String, dynamic> _$LoginResponseToJson(LoginResponse instance) =>
+    <String, dynamic>{
+      'status': instance.status,
+      'message': instance.message,
+      'data': instance.data,
+    };
+
 LoginData _$LoginDataFromJson(Map<String, dynamic> json) => LoginData(
   user: User.fromJson(json['user'] as Map<String, dynamic>),
   token: json['token'] as String,
 );
+
+Map<String, dynamic> _$LoginDataToJson(LoginData instance) => <String, dynamic>{
+  'user': instance.user,
+  'token': instance.token,
+};
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
   id: (json['id'] as num).toInt(),
@@ -39,3 +51,14 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
   phone: json['phone'] as String?,
   fcmToken: json['fcm_token'] as String?,
 );
+
+Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
+  'id': instance.id,
+  'name': instance.name,
+  'username': instance.username,
+  'email': instance.email,
+  'role': instance.role,
+  'pin': instance.pin,
+  'phone': instance.phone,
+  'fcm_token': instance.fcmToken,
+};
