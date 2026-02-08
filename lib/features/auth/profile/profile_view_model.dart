@@ -1,25 +1,22 @@
-import 'dart:developer';
-
-import 'package:permission_handler/permission_handler.dart';
+import 'package:dio/dio.dart';
 import 'package:pion_app/core/api/auth_api.dart';
 import 'package:pion_app/core/models/api_model.dart';
 import 'package:pion_app/core/models/profile_model.dart';
+import 'package:pion_app/core/services/pref_service.dart';
 import 'package:pion_app/features/base_view_model.dart';
-import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
-class HomeViewModel extends BaseViewModel {
-  HomeViewModel({required this.authApi});
+class ProfileViewModel extends BaseViewModel {
+  ProfileViewModel({required this.authApi});
   final AuthApi authApi;
+  final PrefService _prefService = PrefService();
 
   ProfileData? profile;
-  String? fcmToken;
 
   @override
   Future<void> initModel() async {
     setBusy(true);
     await fetchProfile();
-    await requestManageExternalStoragePermission();
     super.initModel();
     setBusy(false);
   }
@@ -29,19 +26,8 @@ class HomeViewModel extends BaseViewModel {
     super.disposeModel();
   }
 
-  Future<void> requestManageExternalStoragePermission() async {
-    final status = await Permission.manageExternalStorage.request();
-    if (status.isGranted) {
-      log('Manage External Storage permission granted');
-    } else if (status.isDenied) {
-      log('Manage External Storage permission denied');
-    } else if (status.isPermanentlyDenied) {
-      log('Manage External Storage permission permanently denied');
-      openAppSettings();
-    }
-  }
-
   Future<void> fetchProfile() async {
+    setBusy(true);
     try {
       final HttpResponse<ProfileResponse> response = await authApi.profile();
       if (response.response.statusCode == 200) {
@@ -53,5 +39,21 @@ class HomeViewModel extends BaseViewModel {
       setError(apiResponse.message);
     }
     setBusy(false);
+  }
+
+  Future<void> logout() async {
+    setBusy(true);
+    try {
+      final HttpResponse<ApiResponse> response = await authApi.logout();
+      if (response.response.statusCode == 200) {
+        final loginResponse = response.data;
+        await _prefService.removeAll();
+        setSuccess(loginResponse.message);
+      }
+    } on DioException catch (e) {
+      final apiResponse = ApiResponse.fromJson(e.response!.data);
+      setError(apiResponse.message);
+      setBusy(false);
+    }
   }
 }

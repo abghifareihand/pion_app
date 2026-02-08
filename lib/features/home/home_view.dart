@@ -1,4 +1,5 @@
-import 'package:pion_app/core/services/notif_service.dart';
+import 'package:pion_app/features/auth/profile/profile_view.dart';
+import 'package:pion_app/features/information/information_view.dart';
 import 'package:provider/provider.dart';
 import 'package:pion_app/core/api/auth_api.dart';
 import 'package:pion_app/core/assets/assets.gen.dart';
@@ -36,48 +37,73 @@ Widget _buildBody(BuildContext context, HomeViewModel model) {
     },
     child: ListView(
       children: [
-        // Nama
+        const SizedBox(height: 16.0),
         Container(
-          padding: const EdgeInsets.only(left: 24, right: 24, top: 12),
-          child: Row(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SvgPicture.asset(
-                Assets.svg.iconPerson.path,
-                width: 34,
-                height: 34,
+              ShimmerName(
+                width: 100,
+                height: 12,
+                isLoading: model.isBusy,
+                text: model.profile?.name ?? '',
+                style: AppFonts.medium.copyWith(
+                  color: AppColors.black,
+                  fontSize: 12,
+                ),
               ),
-              const SizedBox(width: 4.0),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ShimmerName(
-                    width: 100,
-                    height: 12,
-                    isLoading: model.isBusy,
-                    text: model.name,
-                    style: AppFonts.medium.copyWith(
-                      color: AppColors.black,
-                      fontSize: 12,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  ShimmerName(
-                    width: 150,
-                    height: 10,
-                    isLoading: model.isBusy,
-                    text: model.email,
-                    style: AppFonts.regular.copyWith(
-                      color: AppColors.black,
-                      fontSize: 10,
-                      height: 0.5,
-                    ),
-                  ),
-                ],
+              const SizedBox(height: 4),
+              ShimmerName(
+                width: 150,
+                height: 10,
+                isLoading: model.isBusy,
+                text: model.profile?.email ?? '',
+                style: AppFonts.regular.copyWith(
+                  color: AppColors.black,
+                  fontSize: 10,
+                  height: 0.5,
+                ),
               ),
             ],
           ),
         ),
+
         const SizedBox(height: 32.0),
+
+        // Menu
+        GridView.count(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          crossAxisCount: 2,
+          crossAxisSpacing: 24.0,
+          mainAxisSpacing: 24.0,
+          children: [
+            menuButton(
+              iconPath: Assets.svg.iconPerson.path,
+              title: 'Informasi',
+              subtitle: 'Informasi Terkini',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => InformationView()),
+                );
+              },
+            ),
+            menuButton(
+              iconPath: Assets.svg.iconPerson.path,
+              title: 'Outlet',
+              subtitle: 'Kelola Outlet',
+              onPressed: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => OutletView()),
+                // );
+              },
+            ),
+          ],
+        ),
       ],
     ),
   );

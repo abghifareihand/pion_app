@@ -61,7 +61,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (widget.showLabel) ...[
-          Text(widget.label, style: AppFonts.medium.copyWith(color: AppColors.black, fontSize: 14)),
+          Text(
+            widget.label,
+            style: AppFonts.medium.copyWith(
+              color: AppColors.black,
+              fontSize: 14,
+            ),
+          ),
           const SizedBox(height: 8.0),
         ],
         TextFormField(
@@ -76,13 +82,18 @@ class _CustomTextFieldState extends State<CustomTextField> {
           readOnly: widget.readOnly,
           maxLines: widget.maxLines,
           decoration: InputDecoration(
-            hintStyle: AppFonts.medium.copyWith(color: AppColors.gray, fontSize: 14),
+            hintStyle: AppFonts.regular.copyWith(
+              color: AppColors.gray,
+              fontSize: 14,
+            ),
             prefixIcon: widget.prefixIcon,
             suffixIcon:
                 widget.obscureText
                     ? IconButton(
                       icon: Icon(
-                        _obscureText ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                        _obscureText
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
                         color: AppColors.gray,
                       ),
                       onPressed: _toggleObscureText,
@@ -110,7 +121,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ),
             hintText: widget.hintText,
             errorText: widget.errorText,
-            contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+            contentPadding: const EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: 14,
+            ),
           ),
         ),
       ],

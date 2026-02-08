@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
             primary: AppColors.primary,
             secondary: AppColors.primary,
           ),
-          scaffoldBackgroundColor: AppColors.white,
+          scaffoldBackgroundColor: AppColors.background,
           bottomSheetTheme: BottomSheetThemeData(
             backgroundColor: AppColors.white,
           ),
@@ -47,11 +47,11 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           appBarTheme: AppBarTheme(
             elevation: 0,
-            backgroundColor: AppColors.white,
-            surfaceTintColor: AppColors.white,
-            foregroundColor: AppColors.primary,
+            backgroundColor: AppColors.primary,
+            surfaceTintColor: AppColors.primary,
+            foregroundColor: AppColors.white,
             titleTextStyle: AppFonts.medium.copyWith(
-              color: AppColors.primary,
+              color: AppColors.white,
               fontSize: 16,
             ),
             centerTitle: true,
@@ -59,6 +59,13 @@ class MyApp extends StatelessWidget {
           snackBarTheme: SnackBarThemeData(
             contentTextStyle: const TextStyle(color: AppColors.white),
             behavior: SnackBarBehavior.floating,
+          ),
+          pageTransitionsTheme: const PageTransitionsTheme(
+            builders: {
+              TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+              TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+              TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+            },
           ),
         ),
         supportedLocales: const <Locale>[Locale('id')],

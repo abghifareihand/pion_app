@@ -5,7 +5,7 @@ import 'package:pion_app/features/base_view_model.dart';
 class SplashViewModel extends BaseViewModel {
   final PrefService _prefService = PrefService();
 
-  bool hasPermission = false;
+  bool hasNotificationPermission = false;
   bool hasToken = false;
 
   @override
@@ -13,7 +13,7 @@ class SplashViewModel extends BaseViewModel {
     setBusy(true);
 
     // Cek notification
-    hasPermission = await _checkPermissions();
+    hasNotificationPermission = await _checkNotificationPermissions();
 
     // Cek token pakai fungsi baru
     hasToken = await _checkToken();
@@ -25,13 +25,15 @@ class SplashViewModel extends BaseViewModel {
   }
 
   /// ✅ Cek permission notifikasi
-  Future<bool> _checkPermissions() async {
+  Future<bool> _checkNotificationPermissions() async {
     final status = await Permission.notification.status;
     if (status.isGranted) return true;
 
     final result = await Permission.notification.request();
     return result.isGranted;
   }
+
+  
 
   /// ✅ Cek token
   Future<bool> _checkToken() async {

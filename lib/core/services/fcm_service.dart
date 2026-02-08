@@ -8,6 +8,14 @@ import 'package:pion_app/core/config/app_config.dart';
 import 'package:pion_app/core/models/fcm_model.dart';
 import 'package:pion_app/core/services/pref_service.dart';
 
+// ================= BACKGROUND HANDLER =================
+@pragma('vm:entry-point')
+Future<void> _backgroundMessageHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  final fcmService = FcmService();
+  await fcmService._backgroundHandler(message);
+}
+
 class FcmService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -89,8 +97,9 @@ class FcmService {
     log(
       'FCM Foreground: ${message.notification?.title} - ${message.notification?.body}',
     );
+    final int notifId = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     await showNotification(
-      id: 0,
+      id: notifId,
       title: message.notification?.title ?? 'No Title',
       body: message.notification?.body ?? 'No Body',
     );
@@ -100,8 +109,9 @@ class FcmService {
     log(
       'FCM Background: ${message.notification?.title} - ${message.notification?.body}',
     );
+    final int notifId = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     await showNotification(
-      id: 0,
+      id: notifId,
       title: message.notification?.title ?? 'No Title',
       body: message.notification?.body ?? 'No Body',
     );
@@ -136,12 +146,4 @@ class FcmService {
       log('❌ Error sending FCM token: $e');
     }
   }
-}
-
-// ================= BACKGROUND HANDLER =================
-@pragma('vm:entry-point')
-Future<void> _backgroundMessageHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-  final fcmService = FcmService();
-  await fcmService._backgroundHandler(message);
 }

@@ -10,14 +10,17 @@ part 'auth_api.g.dart';
 abstract class AuthApi {
   factory AuthApi(Dio dio, {String baseUrl}) = _AuthApi;
 
+  // Login
   @POST('/api/auth/login')
   Future<HttpResponse<LoginResponse>> login({
     @Body() required LoginRequest request,
   });
 
+  // Get Profile
   @GET('/api/auth/profile')
   Future<HttpResponse<ProfileResponse>> profile();
 
+  // Logout
   @POST('/api/auth/logout')
   Future<HttpResponse<ApiResponse>> logout();
 }

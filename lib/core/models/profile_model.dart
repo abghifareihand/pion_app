@@ -28,8 +28,8 @@ class ProfileData {
     required this.role,
     required this.pin,
     this.phone,
-    this.createdAt,
-    this.updatedAt,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory ProfileData.fromJson(Map<String, dynamic> json) =>
@@ -42,6 +42,6 @@ class ProfileData {
   final String role;
   final String pin;
   final String? phone;
-  final String? createdAt;
-  final String? updatedAt;
+  final String createdAt;
+  final String updatedAt;
 }

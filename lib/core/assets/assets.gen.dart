@@ -38,14 +38,42 @@ class $AssetsImagesGen {
 class $AssetsSvgGen {
   const $AssetsSvgGen();
 
-  /// File path: assets/svg/icon_back.svg
-  SvgGenImage get iconBack => const SvgGenImage('assets/svg/icon_back.svg');
+  /// File path: assets/svg/icon_arrow_left.svg
+  SvgGenImage get iconArrowLeft =>
+      const SvgGenImage('assets/svg/icon_arrow_left.svg');
+
+  /// File path: assets/svg/icon_download.svg
+  SvgGenImage get iconDownload =>
+      const SvgGenImage('assets/svg/icon_download.svg');
+
+  /// File path: assets/svg/icon_lock.svg
+  SvgGenImage get iconLock => const SvgGenImage('assets/svg/icon_lock.svg');
 
   /// File path: assets/svg/icon_person.svg
   SvgGenImage get iconPerson => const SvgGenImage('assets/svg/icon_person.svg');
 
+  /// File path: assets/svg/icon_picture.svg
+  SvgGenImage get iconPicture =>
+      const SvgGenImage('assets/svg/icon_picture.svg');
+
+  /// File path: assets/svg/icon_visibility.svg
+  SvgGenImage get iconVisibility =>
+      const SvgGenImage('assets/svg/icon_visibility.svg');
+
+  /// File path: assets/svg/icon_visibility_off.svg
+  SvgGenImage get iconVisibilityOff =>
+      const SvgGenImage('assets/svg/icon_visibility_off.svg');
+
   /// List of all assets
-  List<SvgGenImage> get values => [iconBack, iconPerson];
+  List<SvgGenImage> get values => [
+    iconArrowLeft,
+    iconDownload,
+    iconLock,
+    iconPerson,
+    iconPicture,
+    iconVisibility,
+    iconVisibilityOff,
+  ];
 }
 
 class Assets {
