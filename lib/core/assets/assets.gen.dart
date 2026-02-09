@@ -42,19 +42,50 @@ class $AssetsSvgGen {
   SvgGenImage get iconArrowLeft =>
       const SvgGenImage('assets/svg/icon_arrow_left.svg');
 
+  /// File path: assets/svg/icon_chat.svg
+  SvgGenImage get iconChat => const SvgGenImage('assets/svg/icon_chat.svg');
+
   /// File path: assets/svg/icon_download.svg
   SvgGenImage get iconDownload =>
       const SvgGenImage('assets/svg/icon_download.svg');
 
+  /// File path: assets/svg/icon_join_pion.svg
+  SvgGenImage get iconJoinPion =>
+      const SvgGenImage('assets/svg/icon_join_pion.svg');
+
+  /// File path: assets/svg/icon_learn.svg
+  SvgGenImage get iconLearn => const SvgGenImage('assets/svg/icon_learn.svg');
+
   /// File path: assets/svg/icon_lock.svg
   SvgGenImage get iconLock => const SvgGenImage('assets/svg/icon_lock.svg');
+
+  /// File path: assets/svg/icon_money.svg
+  SvgGenImage get iconMoney => const SvgGenImage('assets/svg/icon_money.svg');
+
+  /// File path: assets/svg/icon_organization.svg
+  SvgGenImage get iconOrganization =>
+      const SvgGenImage('assets/svg/icon_organization.svg');
 
   /// File path: assets/svg/icon_person.svg
   SvgGenImage get iconPerson => const SvgGenImage('assets/svg/icon_person.svg');
 
+  /// File path: assets/svg/icon_person_2.svg
+  SvgGenImage get iconPerson2 =>
+      const SvgGenImage('assets/svg/icon_person_2.svg');
+
   /// File path: assets/svg/icon_picture.svg
   SvgGenImage get iconPicture =>
       const SvgGenImage('assets/svg/icon_picture.svg');
+
+  /// File path: assets/svg/icon_social.svg
+  SvgGenImage get iconSocial => const SvgGenImage('assets/svg/icon_social.svg');
+
+  /// File path: assets/svg/icon_sp_pion.svg
+  SvgGenImage get iconSpPion =>
+      const SvgGenImage('assets/svg/icon_sp_pion.svg');
+
+  /// File path: assets/svg/icon_user.svg
+  SvgGenImage get iconUser => const SvgGenImage('assets/svg/icon_user.svg');
 
   /// File path: assets/svg/icon_visibility.svg
   SvgGenImage get iconVisibility =>
@@ -64,15 +95,28 @@ class $AssetsSvgGen {
   SvgGenImage get iconVisibilityOff =>
       const SvgGenImage('assets/svg/icon_visibility_off.svg');
 
+  /// File path: assets/svg/icon_votes.svg
+  SvgGenImage get iconVotes => const SvgGenImage('assets/svg/icon_votes.svg');
+
   /// List of all assets
   List<SvgGenImage> get values => [
     iconArrowLeft,
+    iconChat,
     iconDownload,
+    iconJoinPion,
+    iconLearn,
     iconLock,
+    iconMoney,
+    iconOrganization,
     iconPerson,
+    iconPerson2,
     iconPicture,
+    iconSocial,
+    iconSpPion,
+    iconUser,
     iconVisibility,
     iconVisibilityOff,
+    iconVotes,
   ];
 }
 

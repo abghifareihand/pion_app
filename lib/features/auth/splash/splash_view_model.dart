@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pion_app/core/services/pref_service.dart';
 import 'package:pion_app/features/base_view_model.dart';
@@ -12,33 +14,31 @@ class SplashViewModel extends BaseViewModel {
   Future<void> initModel() async {
     setBusy(true);
 
-    // Cek notification
-    hasNotificationPermission = await _checkNotificationPermissions();
+    // 1️⃣ Cek dan request notification permission
+    await requestNotificationPermission();
 
-    // Cek token pakai fungsi baru
+    // 2️⃣ Cek token
     hasToken = await _checkToken();
 
-    // Delay splash 2 detik
+    // 3️⃣ Delay splash 2 detik
     await Future.delayed(const Duration(seconds: 2));
 
     setBusy(false);
   }
 
-  /// ✅ Cek permission notifikasi
-  Future<bool> _checkNotificationPermissions() async {
-    final status = await Permission.notification.status;
-    if (status.isGranted) return true;
-
-    final result = await Permission.notification.request();
-    return result.isGranted;
+  Future<void> requestNotificationPermission() async {
+    final status = await Permission.notification.request();
+    if (status.isGranted) {
+      log('Notification permission granted');
+    } else {
+      log('Notification permission denied');
+    }
   }
-
-  
 
   /// ✅ Cek token
   Future<bool> _checkToken() async {
     final token = await _prefService.getToken();
-    print('🔑 Token : $token');
+    log('🔑 Token : $token');
     return token != null && token.isNotEmpty;
   }
 
@@ -47,4 +47,3 @@ class SplashViewModel extends BaseViewModel {
     super.disposeModel();
   }
 }
-

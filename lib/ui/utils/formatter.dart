@@ -1,7 +1,32 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:html/parser.dart' as html_parser;
 
 class Formatter {
-  static String toRupiah(int number) {
+  const Formatter._(); // prevent instance
+
+  // =====================
+  // Currency
+  // =====================
+  static final currency = _CurrencyFormatter();
+
+  // =====================
+  // Date
+  // =====================
+  static final date = _DateFormatter();
+
+  // =====================
+  // HTML
+  // =====================
+  static final html = _HtmlFormatter();
+}
+
+/* =======================
+   CURRENCY
+======================= */
+class _CurrencyFormatter {
+  String rupiah(int number) {
     final formatCurrency = NumberFormat.currency(
       locale: 'id_ID',
       symbol: 'Rp ',
@@ -10,7 +35,7 @@ class Formatter {
     return formatCurrency.format(number);
   }
 
-  static String toRupiahDouble(double number) {
+  String rupiahDouble(double number) {
     final formatCurrency = NumberFormat.currency(
       locale: 'id_ID',
       symbol: 'Rp ',
@@ -19,7 +44,7 @@ class Formatter {
     return formatCurrency.format(number);
   }
 
-  static String toNoRupiahDouble(double number) {
+  String noRupiahDouble(double number) {
     final formatCurrency = NumberFormat.currency(
       locale: 'id_ID',
       symbol: '',
@@ -27,46 +52,95 @@ class Formatter {
     );
     return formatCurrency.format(number);
   }
+}
 
-  static String toDateTime(String dateTimeString) {
+/* =======================
+   DATE
+======================= */
+class _DateFormatter {
+  String dateTime(String dateTimeString) {
     try {
       final dateTime = DateTime.parse(dateTimeString);
-      final formatter = DateFormat('dd MMM yyyy HH:mm', 'id_ID');
-      return formatter.format(dateTime);
-    } catch (e) {
+      return DateFormat('dd MMM yyyy HH:mm', 'id_ID').format(dateTime);
+    } catch (_) {
       return dateTimeString;
     }
   }
 
-  static String toDateTimeFull(String dateTimeString) {
+  String dateTimeFull(String dateTimeString) {
     try {
-      // final dateTime = DateTime.parse(dateTimeString);
       final dateTimeUtc = DateTime.parse(dateTimeString).toUtc();
-      final dateTimeWib = dateTimeUtc.add(Duration(hours: 7));
-      final formatter = DateFormat('dd/MM/yyyy HH:mm');
-      return formatter.format(dateTimeWib);
-    } catch (e) {
+      final dateTimeWib = dateTimeUtc.add(const Duration(hours: 7));
+      return DateFormat('dd/MM/yyyy HH:mm').format(dateTimeWib);
+    } catch (_) {
       return dateTimeString;
     }
   }
 
-  static String toDate(String dateTimeString) {
+  String date(String dateTimeString) {
     try {
       final dateTime = DateTime.parse(dateTimeString);
-      final formatter = DateFormat('dd MMM yyyy', 'id_ID');
-      return formatter.format(dateTime);
-    } catch (e) {
+      return DateFormat('dd MMM yyyy', 'id_ID').format(dateTime);
+    } catch (_) {
       return dateTimeString;
     }
   }
 
-  static String toTime(String dateTimeString) {
+  String time(String dateTimeString) {
     try {
       final dateTime = DateTime.parse(dateTimeString);
-      final formatter = DateFormat('HH:mm WIB', 'id_ID');
-      return formatter.format(dateTime);
-    } catch (e) {
+      return DateFormat('HH:mm WIB').format(dateTime);
+    } catch (_) {
       return dateTimeString;
     }
+  }
+}
+
+/* =======================
+   HTML
+======================= */
+class _HtmlFormatter {
+  /// HTML ➜ plain text
+  String toText(String? html) {
+    if (html == null || html.isEmpty) return '';
+    final document = html_parser.parse(html);
+    return document.body?.text.trim() ?? '';
+  }
+
+  /// HTML ➜ Widget (CKEditor friendly)
+  Widget render(String? html, {TextStyle? textStyle}) {
+    if (html == null || html.isEmpty) {
+      return const SizedBox();
+    }
+
+    final fontSize = textStyle?.fontSize ?? 14;
+    final color = textStyle?.color;
+    final fontFamily = textStyle?.fontFamily;
+
+    return Html(
+      data: html,
+      style: {
+        "*": Style(
+          fontSize: FontSize(fontSize),
+          color: color,
+          fontFamily: fontFamily,
+          margin: Margins.zero,
+          padding: HtmlPaddings.zero,
+        ),
+        "p": Style(margin: Margins.only(bottom: 8)),
+        "ul": Style(
+          padding: HtmlPaddings.zero,
+          margin: Margins.zero,
+          listStylePosition: ListStylePosition.inside,
+        ),
+        "ol": Style(
+          padding: HtmlPaddings.zero,
+          margin: Margins.zero,
+          listStylePosition: ListStylePosition.inside,
+        ),
+        "li": Style(margin: Margins.only(bottom: 6)),
+        "strong": Style(fontWeight: FontWeight.bold),
+      },
+    );
   }
 }

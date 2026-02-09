@@ -29,7 +29,7 @@ class ProfileViewModel extends BaseViewModel {
   Future<void> fetchProfile() async {
     setBusy(true);
     try {
-      final HttpResponse<ProfileResponse> response = await authApi.profile();
+      final HttpResponse<ProfileResponse> response = await authApi.getProfile();
       if (response.response.statusCode == 200) {
         final profileResponse = response.data.data;
         profile = profileResponse;

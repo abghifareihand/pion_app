@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:pion_app/core/api/information_api.dart';
+import 'package:pion_app/core/api/financial_api.dart';
 import 'package:pion_app/features/base_view.dart';
 import 'package:pion_app/features/home/widgets/shimmer_name.dart';
-import 'package:pion_app/features/information/information_detail/information_detail_view.dart';
-import 'package:pion_app/features/information/information_view_model.dart';
+import 'package:pion_app/features/sp_pion/financial/financial_detail/financial_detail_view.dart';
+import 'package:pion_app/features/sp_pion/financial/financial_view_model.dart';
 import 'package:pion_app/ui/shared/custom_appbar.dart';
 import 'package:pion_app/ui/theme/app_colors.dart';
 import 'package:pion_app/ui/theme/app_fonts.dart';
 import 'package:pion_app/ui/utils/formatter.dart';
 import 'package:provider/provider.dart';
 
-class InformationView extends StatelessWidget {
-  const InformationView({super.key});
+class FinancialView extends StatelessWidget {
+  const FinancialView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<InformationViewModel>(
-      model: InformationViewModel(
-        informationApi: Provider.of<InformationApi>(context),
+    return BaseView<FinancialViewModel>(
+      model: FinancialViewModel(
+        financialApi: Provider.of<FinancialApi>(context),
       ),
-      onModelReady: (InformationViewModel model) => model.initModel(),
-      onModelDispose: (InformationViewModel model) => model.disposeModel(),
-      builder: (BuildContext context, InformationViewModel model, _) {
+      onModelReady: (FinancialViewModel model) => model.initModel(),
+      onModelDispose: (FinancialViewModel model) => model.disposeModel(),
+      builder: (BuildContext context, FinancialViewModel model, _) {
         return Scaffold(
-          appBar: CustomAppBar(title: 'Informasi'),
-          backgroundColor: AppColors.background,
+          appBar: CustomAppBar(title: 'Laporan Keuangan'),
+          backgroundColor: AppColors.white,
           body: _buildBody(context, model),
         );
       },
@@ -32,10 +32,10 @@ class InformationView extends StatelessWidget {
   }
 }
 
-Widget _buildBody(BuildContext context, InformationViewModel model) {
+Widget _buildBody(BuildContext context, FinancialViewModel model) {
   return RefreshIndicator(
     onRefresh: () async {
-      await model.fetchListInformation();
+      await model.fetchListFinancial();
     },
     child:
         model.isBusy
@@ -51,18 +51,17 @@ Widget _buildBody(BuildContext context, InformationViewModel model) {
                 parent: BouncingScrollPhysics(),
               ),
               padding: const EdgeInsets.all(20),
-              itemCount: model.listInformation.length,
+              itemCount: model.listFinancial.length,
               separatorBuilder: (_, _) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
-                final data = model.listInformation[index];
+                final data = model.listFinancial[index];
                 return InkWell(
                   borderRadius: BorderRadius.circular(8),
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder:
-                            (context) => InformationDetailView(id: data.id),
+                        builder: (context) => FinancialDetailView(id: data.id),
                       ),
                     );
                   },

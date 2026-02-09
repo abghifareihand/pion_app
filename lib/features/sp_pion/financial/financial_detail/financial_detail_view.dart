@@ -1,36 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:pion_app/core/api/information_api.dart';
+import 'package:pion_app/core/api/financial_api.dart';
+import 'package:pion_app/core/assets/assets.gen.dart';
 import 'package:pion_app/features/base_view.dart';
-import 'package:pion_app/features/information/information_detail/information_detail_view_model.dart';
+import 'package:pion_app/features/sp_pion/financial/financial_detail/financial_detail_view_model.dart';
 import 'package:pion_app/ui/shared/button_preview.dart';
 import 'package:pion_app/ui/shared/custom_appbar.dart';
-import 'package:pion_app/ui/shared/custom_button.dart';
 import 'package:pion_app/ui/theme/app_colors.dart';
 import 'package:pion_app/ui/theme/app_fonts.dart';
-import 'package:pion_app/ui/utils/pdf_download.dart';
 import 'package:pion_app/ui/utils/formatter.dart';
 import 'package:pion_app/ui/utils/pdf_preview.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/assets/assets.gen.dart';
-
-class InformationDetailView extends StatelessWidget {
+class FinancialDetailView extends StatelessWidget {
   final int id;
-  const InformationDetailView({super.key, required this.id});
+  const FinancialDetailView({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<InformationDetailViewModel>(
-      model: InformationDetailViewModel(
-        informationApi: Provider.of<InformationApi>(context),
+    return BaseView<FinancialDetailViewModel>(
+      model: FinancialDetailViewModel(
+        financialApi: Provider.of<FinancialApi>(context),
         id: id,
       ),
-      onModelReady: (InformationDetailViewModel model) => model.initModel(),
-      onModelDispose:
-          (InformationDetailViewModel model) => model.disposeModel(),
-      builder: (BuildContext context, InformationDetailViewModel model, _) {
+      onModelReady: (FinancialDetailViewModel model) => model.initModel(),
+      onModelDispose: (FinancialDetailViewModel model) => model.disposeModel(),
+      builder: (BuildContext context, FinancialDetailViewModel model, _) {
         return Scaffold(
-          appBar: CustomAppBar(title: 'Detail Informasi'),
+          appBar: CustomAppBar(title: 'Detail Laporan Keuangan'),
           backgroundColor: AppColors.white,
           body: _buildBody(context, model),
         );
@@ -39,7 +35,7 @@ class InformationDetailView extends StatelessWidget {
   }
 }
 
-Widget _buildBody(BuildContext context, InformationDetailViewModel model) {
+Widget _buildBody(BuildContext context, FinancialDetailViewModel model) {
   if (model.isBusy) {
     return const Center(
       child: CircularProgressIndicator(color: AppColors.primary),
@@ -66,7 +62,7 @@ Widget _buildBody(BuildContext context, InformationDetailViewModel model) {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              model.detailInformation?.title ?? '',
+              model.detailFinancial?.title ?? '',
               style: AppFonts.semiBold.copyWith(
                 color: AppColors.black,
                 fontSize: 14,
@@ -76,7 +72,7 @@ Widget _buildBody(BuildContext context, InformationDetailViewModel model) {
             ),
             Text(
               Formatter.date.dateTimeFull(
-                model.detailInformation?.createdAt ?? '',
+                model.detailFinancial?.createdAt ?? '',
               ),
               style: AppFonts.regular.copyWith(
                 color: AppColors.black,
@@ -85,7 +81,7 @@ Widget _buildBody(BuildContext context, InformationDetailViewModel model) {
             ),
             const SizedBox(height: 16.0),
             Text(
-              model.detailInformation?.description ?? '',
+              model.detailFinancial?.description ?? '',
               style: AppFonts.regular.copyWith(
                 color: AppColors.darkGrey,
                 fontSize: 12,
@@ -100,7 +96,7 @@ Widget _buildBody(BuildContext context, InformationDetailViewModel model) {
       Center(
         child: ButtonPreview(
           onTap: () {
-            final fileUrl = model.detailInformation?.fileUrl;
+            final fileUrl = model.detailFinancial?.fileUrl;
             if (fileUrl != null && fileUrl.isNotEmpty) {
               Navigator.of(context).push(
                 MaterialPageRoute(

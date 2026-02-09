@@ -18,7 +18,7 @@ abstract class AuthApi {
 
   // Get Profile
   @GET('/api/auth/profile')
-  Future<HttpResponse<ProfileResponse>> profile();
+  Future<HttpResponse<ProfileResponse>> getProfile();
 
   // Logout
   @POST('/api/auth/logout')

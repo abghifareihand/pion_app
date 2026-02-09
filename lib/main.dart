@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:no_screenshot/no_screenshot.dart';
 import 'package:pion_app/core/services/fcm_service.dart';
 import 'package:pion_app/features/auth/splash/splash_view.dart';
 import 'package:pion_app/firebase_options.dart';
@@ -15,10 +16,13 @@ void main() async {
   // Initial env
   await dotenv.load(fileName: '.env');
 
+  // Inital no screenshot
+  await NoScreenshot.instance.screenshotOff();
+
   // Initial Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // Initial Notif
+  // Initial Notification
   await FcmService().initialize();
   runApp(const MyApp());
 }
@@ -39,7 +43,7 @@ class MyApp extends StatelessWidget {
             primary: AppColors.primary,
             secondary: AppColors.primary,
           ),
-          scaffoldBackgroundColor: AppColors.background,
+          scaffoldBackgroundColor: AppColors.white,
           bottomSheetTheme: BottomSheetThemeData(
             backgroundColor: AppColors.white,
           ),

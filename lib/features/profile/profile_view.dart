@@ -3,7 +3,8 @@ import 'package:pion_app/core/api/auth_api.dart';
 import 'package:pion_app/core/assets/assets.gen.dart';
 import 'package:pion_app/core/models/profile_model.dart';
 import 'package:pion_app/features/auth/login/login_view.dart';
-import 'package:pion_app/features/auth/profile/profile_view_model.dart';
+import 'package:pion_app/features/profile/edit-profile/edit_profile_view.dart';
+import 'package:pion_app/features/profile/profile_view_model.dart';
 import 'package:pion_app/features/base_view.dart';
 import 'package:pion_app/ui/shared/custom_appbar.dart';
 import 'package:pion_app/ui/shared/custom_button.dart';
@@ -39,6 +40,52 @@ Widget _buildBody(BuildContext context, ProfileViewModel model) {
     children: [
       ProfileHeader(isLoading: model.isBusy, profile: model.profile),
       const SizedBox(height: 32.0),
+      Container(
+        padding: EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: AppColors.white,
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, 5),
+              color: AppColors.black.withValues(alpha: 0.05),
+              blurRadius: 30.0,
+              spreadRadius: 0,
+              blurStyle: BlurStyle.outer,
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Akun',
+              style: AppFonts.regular.copyWith(
+                color: AppColors.black.withValues(alpha: 0.5),
+                fontSize: 12,
+              ),
+            ),
+            const SizedBox(height: 8.0),
+            profileMenu(
+              icon: Icons.person,
+              title: 'Informasi Akun',
+              onPressed: () async {
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => EditProfileView(profile: model.profile!),
+                  ),
+                );
+                if (result == true) {
+                  await model.fetchProfile();
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+      const SizedBox(height: 24.0),
       Button.filled(
         onPressed: () async {
           await model.logout();
@@ -63,6 +110,35 @@ Widget _buildBody(BuildContext context, ProfileViewModel model) {
   );
 }
 
+Widget profileMenu({
+  required IconData icon,
+  required String title,
+  required VoidCallback onPressed,
+}) {
+  return InkWell(
+    onTap: onPressed,
+    child: Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: AppColors.primary.withValues(alpha: 0.1),
+          ),
+          child: Icon(icon, size: 20, color: AppColors.primary),
+        ),
+        const SizedBox(width: 12.0),
+        Text(
+          title,
+          style: AppFonts.medium.copyWith(color: AppColors.black, fontSize: 14),
+        ),
+        const Spacer(),
+        const Icon(Icons.chevron_right, color: AppColors.black),
+      ],
+    ),
+  );
+}
+
 class ProfileHeader extends StatelessWidget {
   final bool isLoading;
   final ProfileData? profile;
@@ -82,7 +158,7 @@ class ProfileHeader extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Assets.svg.iconPerson.svg(width: 120, height: 120),
+          Assets.svg.iconPerson2.svg(width: 120, height: 120),
           const SizedBox(height: 8.0),
           Text(
             profile?.name ?? '',
@@ -92,7 +168,7 @@ class ProfileHeader extends StatelessWidget {
             ),
           ),
           Text(
-            profile?.role ?? '',
+            profile?.email ?? '',
             style: AppFonts.medium.copyWith(
               color: AppColors.black,
               fontSize: 12,

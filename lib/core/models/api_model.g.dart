@@ -7,7 +7,7 @@ part of 'api_model.dart';
 // **************************************************************************
 
 ApiResponse _$ApiResponseFromJson(Map<String, dynamic> json) => ApiResponse(
-  status: json['status'] as bool,
+  status: json['status'] as bool?,
   message: json['message'] as String,
 );
 

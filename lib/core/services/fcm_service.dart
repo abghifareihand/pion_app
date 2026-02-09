@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:pion_app/core/config/app_config.dart';
 import 'package:pion_app/core/models/fcm_model.dart';
 import 'package:pion_app/core/services/pref_service.dart';
@@ -46,7 +47,13 @@ class FcmService {
     );
     await flutterLocalNotificationsPlugin.initialize(
       initSettings,
-      onDidReceiveNotificationResponse: (response) async {},
+      onDidReceiveNotificationResponse: (response) async {
+        final payload = response.payload;
+        if (payload != null && payload.isNotEmpty) {
+          // Buka file / folder pakai open_file
+          await OpenFilex.open(payload);
+        }
+      },
     );
 
     // ambil token FCM
@@ -70,6 +77,7 @@ class FcmService {
     required int id,
     required String title,
     required String body,
+    String? payload,
   }) async {
     const androidDetails = AndroidNotificationDetails(
       'com.adrprogramming.pion_app',
@@ -89,6 +97,7 @@ class FcmService {
       title,
       body,
       notificationDetails,
+      payload: payload,
     );
   }
 
