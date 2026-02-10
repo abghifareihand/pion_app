@@ -18,14 +18,6 @@ OrganizationResponse _$OrganizationResponseFromJson(
   meta: Meta.fromJson(json['meta'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$OrganizationResponseToJson(
-  OrganizationResponse instance,
-) => <String, dynamic>{
-  'status': instance.status,
-  'message': instance.message,
-  'data': instance.data,
-  'meta': instance.meta,
-};
 
 OrganizationData _$OrganizationDataFromJson(Map<String, dynamic> json) =>
     OrganizationData(

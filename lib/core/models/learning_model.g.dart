@@ -17,13 +17,6 @@ LearningResponse _$LearningResponseFromJson(Map<String, dynamic> json) =>
       meta: Meta.fromJson(json['meta'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$LearningResponseToJson(LearningResponse instance) =>
-    <String, dynamic>{
-      'status': instance.status,
-      'message': instance.message,
-      'data': instance.data,
-      'meta': instance.meta,
-    };
 
 LearningData _$LearningDataFromJson(Map<String, dynamic> json) => LearningData(
   id: (json['id'] as num).toInt(),

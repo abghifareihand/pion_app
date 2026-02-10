@@ -17,13 +17,6 @@ FinancialResponse _$FinancialResponseFromJson(Map<String, dynamic> json) =>
       meta: Meta.fromJson(json['meta'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$FinancialResponseToJson(FinancialResponse instance) =>
-    <String, dynamic>{
-      'status': instance.status,
-      'message': instance.message,
-      'data': instance.data,
-      'meta': instance.meta,
-    };
 
 FinancialData _$FinancialDataFromJson(Map<String, dynamic> json) =>
     FinancialData(

@@ -15,12 +15,6 @@ FeedResponse _$FeedResponseFromJson(Map<String, dynamic> json) => FeedResponse(
           .toList(),
 );
 
-Map<String, dynamic> _$FeedResponseToJson(FeedResponse instance) =>
-    <String, dynamic>{
-      'status': instance.status,
-      'message': instance.message,
-      'data': instance.data,
-    };
 
 FeedData _$FeedDataFromJson(Map<String, dynamic> json) => FeedData(
   id: (json['id'] as num).toInt(),

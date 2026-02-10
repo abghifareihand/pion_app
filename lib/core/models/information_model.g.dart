@@ -17,14 +17,6 @@ InformationResponse _$InformationResponseFromJson(Map<String, dynamic> json) =>
       meta: Meta.fromJson(json['meta'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$InformationResponseToJson(
-  InformationResponse instance,
-) => <String, dynamic>{
-  'status': instance.status,
-  'message': instance.message,
-  'data': instance.data,
-  'meta': instance.meta,
-};
 
 InformationData _$InformationDataFromJson(Map<String, dynamic> json) =>
     InformationData(

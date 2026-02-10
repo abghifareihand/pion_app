@@ -17,13 +17,6 @@ SocialResponse _$SocialResponseFromJson(Map<String, dynamic> json) =>
       meta: Meta.fromJson(json['meta'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$SocialResponseToJson(SocialResponse instance) =>
-    <String, dynamic>{
-      'status': instance.status,
-      'message': instance.message,
-      'data': instance.data,
-      'meta': instance.meta,
-    };
 
 SocialData _$SocialDataFromJson(Map<String, dynamic> json) => SocialData(
   id: (json['id'] as num).toInt(),
@@ -31,12 +24,6 @@ SocialData _$SocialDataFromJson(Map<String, dynamic> json) => SocialData(
   createdAt: json['created_at'] as String,
 );
 
-Map<String, dynamic> _$SocialDataToJson(SocialData instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'title': instance.title,
-      'created_at': instance.createdAt,
-    };
 
 Meta _$MetaFromJson(Map<String, dynamic> json) => Meta(
   currentPage: (json['current_page'] as num).toInt(),
@@ -47,14 +34,6 @@ Meta _$MetaFromJson(Map<String, dynamic> json) => Meta(
   prevPageUrl: json['prev_page_url'] as String?,
 );
 
-Map<String, dynamic> _$MetaToJson(Meta instance) => <String, dynamic>{
-  'current_page': instance.currentPage,
-  'last_page': instance.lastPage,
-  'per_page': instance.perPage,
-  'total': instance.total,
-  'next_page_url': instance.nextPageUrl,
-  'prev_page_url': instance.prevPageUrl,
-};
 
 SocialDetailResponse _$SocialDetailResponseFromJson(
   Map<String, dynamic> json,
@@ -64,13 +43,6 @@ SocialDetailResponse _$SocialDetailResponseFromJson(
   data: SocialDetailData.fromJson(json['data'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$SocialDetailResponseToJson(
-  SocialDetailResponse instance,
-) => <String, dynamic>{
-  'status': instance.status,
-  'message': instance.message,
-  'data': instance.data,
-};
 
 SocialDetailData _$SocialDetailDataFromJson(Map<String, dynamic> json) =>
     SocialDetailData(
