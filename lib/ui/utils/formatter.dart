@@ -61,7 +61,11 @@ class _DateFormatter {
   String dateTime(String dateTimeString) {
     try {
       final dateTime = DateTime.parse(dateTimeString);
-      return DateFormat('dd MMM yyyy HH:mm', 'id_ID').format(dateTime);
+
+      final date = DateFormat('dd MMM yyyy', 'id_ID').format(dateTime);
+      final time = DateFormat('HH:mm', 'id_ID').format(dateTime);
+
+      return '$date • $time';
     } catch (_) {
       return dateTimeString;
     }

@@ -16,39 +16,53 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(kToolbarHeight),
-      child: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        actions: actions,
-        title: Text(title),
-        leading:
-            showBackButton
-                ? GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: AppColors.white.withValues(alpha: 0.1),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Assets.svg.iconArrowLeft.svg(
-                        colorFilter: ColorFilter.mode(
-                          AppColors.white,
-                          BlendMode.srcIn,
-                        ),
+    return AppBar(
+      automaticallyImplyLeading: false,
+      centerTitle: true,
+      elevation: 0,
+      backgroundColor: Colors.transparent, // penting biar gradient kelihatan
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [AppColors.primary, AppColors.secondary],
+          ),
+        ),
+      ),
+      title: Text(
+        title,
+        style: const TextStyle(
+          color: AppColors.white,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      actions: actions,
+      leading:
+          showBackButton
+              ? GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppColors.white.withValues(alpha: 0.15),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Assets.svg.iconArrowLeft.svg(
+                      colorFilter: const ColorFilter.mode(
+                        AppColors.white,
+                        BlendMode.srcIn,
                       ),
                     ),
                   ),
-                )
-                : null,
-      ),
+                ),
+              )
+              : null,
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

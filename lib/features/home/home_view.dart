@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pion_app/core/api/auth_api.dart';
 import 'package:pion_app/core/api/information_api.dart';
 import 'package:pion_app/core/api/vision_api.dart';
 import 'package:pion_app/core/assets/assets.gen.dart';
 import 'package:pion_app/features/base_view.dart';
 import 'package:pion_app/features/home/home_view_model.dart';
+import 'package:pion_app/features/home/widgets/icon_label.dart';
+import 'package:pion_app/features/information/information_detail/information_detail_view.dart';
 import 'package:pion_app/features/information/information_view.dart';
 import 'package:pion_app/features/join_pion/join_pion_view.dart';
 import 'package:pion_app/features/profile/profile_view.dart';
@@ -30,7 +31,7 @@ class HomeView extends StatelessWidget {
       onModelDispose: (HomeViewModel model) => model.disposeModel(),
       builder: (BuildContext context, HomeViewModel model, _) {
         return Scaffold(
-          backgroundColor: AppColors.white,
+          backgroundColor: AppColors.background,
           body: _buildBody(context, model),
         );
       },
@@ -38,291 +39,322 @@ class HomeView extends StatelessWidget {
   }
 }
 
-Widget _buildBody(BuildContext context, HomeViewModel model) {
-  return ListView(
+Widget _buildBackground(BuildContext context) {
+  final height = MediaQuery.of(context).size.height;
+
+  return Column(
     children: [
-      // Header
-      Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Row(
+      Container(
+        height: height * 0.12,
+        decoration: const BoxDecoration(gradient: AppColors.primaryGradient),
+      ),
+      Expanded(child: Container(color: AppColors.background)),
+    ],
+  );
+}
+
+Widget _buildBody(BuildContext context, HomeViewModel model) {
+  return Stack(
+    children: [
+      // Background layer
+      _buildBackground(context),
+
+      RefreshIndicator(
+        onRefresh: () async {
+          await model.fetchProfile();
+          await model.fetchVision();
+          await model.fetchListInformation();
+        },
+        child: ListView(
           children: [
-            // Name email
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            const SizedBox(height: 32.0),
+            // CARD NAME
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: AppColors.cardShadow,
+              ),
+              child: Row(
                 children: [
-                  Text(
-                    model.profile?.name ?? '',
-                    style: AppFonts.bold.copyWith(
-                      color: AppColors.primary,
-                      fontSize: 14,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          model.profile?.name ?? '',
+                          style: AppFonts.semiBold.copyWith(
+                            color: AppColors.black,
+                            fontSize: 14,
+                          ),
+                        ),
+                        Text(
+                          model.profile?.email ?? '',
+                          style: AppFonts.regular.copyWith(
+                            color: AppColors.black.withValues(alpha: 0.5),
+                            fontSize: 10,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Text(
-                    model.profile?.email ?? '',
-                    style: AppFonts.regular.copyWith(
-                      color: AppColors.primary,
-                      fontSize: 10,
+
+                  // Icon Setting
+                  Material(
+                    color: Colors.transparent,
+                    shape: const CircleBorder(),
+                    child: InkWell(
+                      customBorder: const CircleBorder(),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => ProfileView()),
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: AppColors.primaryGradient,
+                        ),
+                        child: const Icon(
+                          Icons.settings,
+                          size: 18,
+                          color: AppColors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 28.0),
+
+            // MENU SP PION DAN JOIN PION
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: GradientIconLabel(
+                      label: 'SP PION',
+                      iconPath: Assets.svg.iconSpPion.path,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => SpPionView()),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 16.0),
+                  Expanded(
+                    child: GradientIconLabel(
+                      label: 'JOIN PION',
+                      iconPath: Assets.svg.iconJoinPion.path,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => JoinPionView(),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ],
               ),
             ),
 
-            // Icon profile
-            InkWell(
-              borderRadius: BorderRadius.circular(50),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => ProfileView()),
-                );
-              },
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: Assets.svg.iconUser.svg(
-                  width: 18,
-                  height: 18,
-                  colorFilter: const ColorFilter.mode(
-                    AppColors.white,
-                    BlendMode.srcIn,
+            const SizedBox(height: 32),
+
+            // CARD VISI MISI
+            Container(
+              padding: EdgeInsets.all(16),
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: AppColors.cardShadow,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Visi & Misi',
+                    style: AppFonts.semiBold.copyWith(
+                      color: AppColors.black,
+                      fontSize: 14,
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    'Visi',
+                    style: AppFonts.semiBold.copyWith(
+                      color: AppColors.primary,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Formatter.html.render(
+                    model.vision?.title,
+                    textStyle: AppFonts.regular.copyWith(
+                      fontSize: 14,
+                      color: AppColors.black,
+                    ),
+                  ),
+                  Divider(color: AppColors.gray),
+                  Text(
+                    'Misi',
+                    style: AppFonts.semiBold.copyWith(
+                      color: AppColors.primary,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Formatter.html.render(
+                    model.vision?.subtitle,
+                    textStyle: AppFonts.regular.copyWith(
+                      fontSize: 14,
+                      color: AppColors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24.0),
+
+            // CARD INFORMASI
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: AppColors.cardShadow,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // ===== Header =====
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Informasi Terkini',
+                        style: AppFonts.semiBold.copyWith(
+                          color: AppColors.black,
+                          fontSize: 14,
+                        ),
+                      ),
+                      InkWell(
+                        borderRadius: BorderRadius.circular(8),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const InformationView(),
+                            ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 4,
+                          ),
+                          child: Text(
+                            'Lihat semua',
+                            style: AppFonts.semiBold.copyWith(
+                              color: AppColors.primary,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  // ===== List Informasi =====
+                  model.listInformation.isEmpty
+                      ? Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 24),
+                        child: Center(
+                          child: Text(
+                            'Belum ada informasi',
+                            style: AppFonts.medium.copyWith(
+                              fontSize: 14,
+                              color: AppColors.darkGrey,
+                            ),
+                          ),
+                        ),
+                      )
+                      : ListView.separated(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount:
+                            model.listInformation.length > 3
+                                ? 3
+                                : model.listInformation.length,
+                        separatorBuilder:
+                            (_, __) =>
+                                Divider(color: AppColors.gray, thickness: 0.5),
+                        itemBuilder: (context, index) {
+                          final data = model.listInformation[index];
+                          return InkWell(
+                            borderRadius: BorderRadius.circular(8),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) =>
+                                          InformationDetailView(id: data.id),
+                                ),
+                              );
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Informasi',
+                                  style: AppFonts.medium.copyWith(
+                                    color: AppColors.black,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                Text(
+                                  data.title,
+                                  style: AppFonts.medium.copyWith(
+                                    fontSize: 12,
+                                    color: AppColors.black.withValues(
+                                      alpha: 0.5,
+                                    ),
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  Formatter.date.dateTime(data.createdAt),
+                                  style: AppFonts.medium.copyWith(
+                                    fontSize: 10,
+                                    color: AppColors.black.withValues(
+                                      alpha: 0.5,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                ],
               ),
             ),
           ],
         ),
-      ),
-
-      const SizedBox(height: 32.0),
-
-      // Menu Card
-      GridView.count(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        crossAxisCount: 2,
-        crossAxisSpacing: 32,
-        mainAxisSpacing: 32,
-        children: [
-          menuButton(
-            iconPath: Assets.svg.iconSpPion.path,
-            iconColor: const Color(0XFF3C4ABC),
-            bgColor: const Color(0XFFD7DAF1),
-            title: 'SP PION',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => SpPionView()),
-              );
-            },
-          ),
-          menuButton(
-            iconPath: Assets.svg.iconJoinPion.path,
-            iconColor: const Color(0XFF22B07D),
-            bgColor: const Color(0XFFD3EFE5),
-            title: 'JOIN PION',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => JoinPionView()),
-              );
-            },
-          ),
-        ],
-      ),
-
-      const SizedBox(height: 32),
-
-      // Vision, Informasi, dl
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Visi',
-              style: AppFonts.medium.copyWith(
-                color: AppColors.black,
-                fontSize: 16,
-              ),
-            ),
-            Formatter.html.render(
-              model.vision?.title,
-              textStyle: AppFonts.regular.copyWith(
-                fontSize: 14,
-                color: AppColors.black,
-              ),
-            ),
-            const SizedBox(height: 16.0),
-            Text(
-              'Misi',
-              style: AppFonts.medium.copyWith(
-                color: AppColors.black,
-                fontSize: 16,
-              ),
-            ),
-            Formatter.html.render(
-              model.vision?.subtitle,
-              textStyle: AppFonts.regular.copyWith(
-                fontSize: 14,
-                color: AppColors.black,
-              ),
-            ),
-          ],
-        ),
-      ),
-
-      const SizedBox(height: 32.0),
-
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Informasi Terkini',
-              style: AppFonts.medium.copyWith(
-                color: AppColors.black,
-                fontSize: 16,
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => InformationView()),
-                );
-              },
-              child: Text(
-                'Lihat semua',
-                style: AppFonts.regular.copyWith(
-                  color: AppColors.darkGrey,
-                  fontSize: 10,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ],
-        ),
-      ),
-
-      const SizedBox(height: 12.0),
-
-      // Information Card
-      ListView.separated(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 32),
-        itemCount: model.listInformation.length,
-        separatorBuilder: (_, _) => const SizedBox(height: 12.0),
-        itemBuilder: (context, index) {
-          final data = model.listInformation[index];
-          return informationCard(
-            title: data.title,
-            date: data.createdAt,
-            onPressed: () {},
-          );
-        },
       ),
     ],
-  );
-}
-
-Widget menuButton({
-  required String iconPath,
-  required String title,
-  required VoidCallback onPressed,
-  Color? iconColor,
-  Color? bgColor,
-}) {
-  return InkWell(
-    borderRadius: BorderRadius.circular(12),
-    onTap: onPressed,
-    child: Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.0),
-        border: Border.all(color: Color(0XFFE7EAED)),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: bgColor ?? AppColors.primary,
-            ),
-            width: 48,
-            height: 48,
-            child: SvgPicture.asset(
-              iconPath,
-              colorFilter: ColorFilter.mode(
-                iconColor ?? AppColors.primary,
-                BlendMode.srcIn,
-              ),
-            ),
-          ),
-          const SizedBox(height: 10.0),
-          Text(
-            title,
-            style: AppFonts.medium.copyWith(
-              color: AppColors.black,
-              fontSize: 14,
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-Widget informationCard({
-  required String title,
-  required String date,
-  required VoidCallback onPressed,
-}) {
-  return InkWell(
-    borderRadius: BorderRadius.circular(12),
-    onTap: onPressed,
-    child: Container(
-      padding: const EdgeInsets.all(12.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        border: Border.all(color: Color(0XFFE7EAED)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Informasi',
-            style: AppFonts.medium.copyWith(
-              color: AppColors.black,
-              fontSize: 14,
-            ),
-          ),
-          Text(
-            title,
-            style: AppFonts.medium.copyWith(
-              color: AppColors.darkGrey,
-              fontSize: 12,
-            ),
-            overflow: TextOverflow.ellipsis,
-          ),
-          Text(
-            Formatter.date.dateTimeFull(date),
-            style: AppFonts.medium.copyWith(
-              color: AppColors.gray,
-              fontSize: 10,
-            ),
-          ),
-        ],
-      ),
-    ),
   );
 }

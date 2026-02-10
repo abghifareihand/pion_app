@@ -26,7 +26,7 @@ class ProfileView extends StatelessWidget {
       builder: (BuildContext context, ProfileViewModel model, _) {
         return Scaffold(
           appBar: CustomAppBar(title: 'Profile'),
-          backgroundColor: AppColors.white,
+          backgroundColor: AppColors.background,
           body: _buildBody(context, model),
         );
       },
@@ -45,15 +45,7 @@ Widget _buildBody(BuildContext context, ProfileViewModel model) {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           color: AppColors.white,
-          boxShadow: [
-            BoxShadow(
-              offset: const Offset(0, 5),
-              color: AppColors.black.withValues(alpha: 0.05),
-              blurRadius: 30.0,
-              spreadRadius: 0,
-              blurStyle: BlurStyle.outer,
-            ),
-          ],
+          boxShadow: AppColors.cardShadow,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,7 +115,7 @@ Widget profileMenu({
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
-            color: AppColors.primary.withValues(alpha: 0.1),
+            color: AppColors.secondary.withValues(alpha: 0.2),
           ),
           child: Icon(icon, size: 20, color: AppColors.primary),
         ),

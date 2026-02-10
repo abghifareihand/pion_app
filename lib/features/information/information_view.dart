@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pion_app/core/api/information_api.dart';
 import 'package:pion_app/features/base_view.dart';
-import 'package:pion_app/features/home/widgets/shimmer_name.dart';
 import 'package:pion_app/features/information/information_detail/information_detail_view.dart';
 import 'package:pion_app/features/information/information_view_model.dart';
 import 'package:pion_app/ui/shared/custom_appbar.dart';
+import 'package:pion_app/ui/shared/custom_shimmer.dart';
 import 'package:pion_app/ui/theme/app_colors.dart';
 import 'package:pion_app/ui/theme/app_fonts.dart';
 import 'package:pion_app/ui/utils/formatter.dart';
@@ -43,8 +43,18 @@ Widget _buildBody(BuildContext context, InformationViewModel model) {
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.all(20),
               itemCount: 3,
-              separatorBuilder: (_, _) => const SizedBox(height: 12),
-              itemBuilder: (_, __) => financialShimmerItem(),
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              itemBuilder: (_, __) => CardShimmer(),
+            )
+            : model.listInformation.isEmpty
+            ? Center(
+              child: Text(
+                'Belum ada informasi',
+                style: AppFonts.medium.copyWith(
+                  fontSize: 14,
+                  color: AppColors.darkGrey,
+                ),
+              ),
             )
             : ListView.separated(
               physics: const AlwaysScrollableScrollPhysics(
@@ -52,7 +62,7 @@ Widget _buildBody(BuildContext context, InformationViewModel model) {
               ),
               padding: const EdgeInsets.all(20),
               itemCount: model.listInformation.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 12),
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final data = model.listInformation[index];
                 return InkWell(
@@ -69,14 +79,15 @@ Widget _buildBody(BuildContext context, InformationViewModel model) {
                   child: Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
+                      color: AppColors.white,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: const Color(0xFFE7EAED)),
+                      boxShadow: AppColors.cardShadow,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Laporan Keuangan',
+                          'Informasi',
                           style: AppFonts.medium.copyWith(
                             color: AppColors.black,
                             fontSize: 14,
@@ -85,16 +96,16 @@ Widget _buildBody(BuildContext context, InformationViewModel model) {
                         Text(
                           data.title,
                           style: AppFonts.medium.copyWith(
-                            color: AppColors.darkGrey,
                             fontSize: 12,
+                            color: AppColors.black.withValues(alpha: 0.5),
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
-                          Formatter.date.dateTimeFull(data.createdAt),
+                          Formatter.date.dateTime(data.createdAt),
                           style: AppFonts.medium.copyWith(
-                            color: AppColors.gray,
                             fontSize: 10,
+                            color: AppColors.black.withValues(alpha: 0.5),
                           ),
                         ),
                       ],
@@ -103,25 +114,5 @@ Widget _buildBody(BuildContext context, InformationViewModel model) {
                 );
               },
             ),
-  );
-}
-
-Widget financialShimmerItem() {
-  return Container(
-    padding: const EdgeInsets.all(12),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(8),
-      border: Border.all(color: const Color(0xFFE7EAED)),
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ShimmerName(width: 120, height: 14, isLoading: true),
-        const SizedBox(height: 8),
-        ShimmerName(width: 250, height: 12, isLoading: true),
-        const SizedBox(height: 6),
-        ShimmerName(width: 100, height: 10, isLoading: true),
-      ],
-    ),
   );
 }

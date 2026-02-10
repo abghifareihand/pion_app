@@ -29,7 +29,7 @@ class InformationDetailView extends StatelessWidget {
       builder: (BuildContext context, InformationDetailViewModel model, _) {
         return Scaffold(
           appBar: CustomAppBar(title: 'Detail Informasi'),
-          backgroundColor: AppColors.white,
+          backgroundColor: AppColors.background,
           body: _buildBody(context, model),
         );
       },
@@ -73,9 +73,7 @@ Widget _buildBody(BuildContext context, InformationDetailViewModel model) {
               maxLines: 2,
             ),
             Text(
-              Formatter.date.dateTimeFull(
-                model.detailInformation?.createdAt ?? '',
-              ),
+              Formatter.date.dateTime(model.detailInformation?.createdAt ?? ''),
               style: AppFonts.regular.copyWith(
                 color: AppColors.black,
                 fontSize: 12,
@@ -85,7 +83,7 @@ Widget _buildBody(BuildContext context, InformationDetailViewModel model) {
             Text(
               model.detailInformation?.description ?? '',
               style: AppFonts.regular.copyWith(
-                color: AppColors.darkGrey,
+                color: AppColors.black,
                 fontSize: 12,
               ),
             ),

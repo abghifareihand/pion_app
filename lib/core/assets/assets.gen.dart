@@ -31,8 +31,23 @@ class $AssetsImagesGen {
   /// File path: assets/images/logo.png
   AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
 
+  /// File path: assets/images/product_1.jpeg
+  AssetGenImage get product1 =>
+      const AssetGenImage('assets/images/product_1.jpeg');
+
+  /// File path: assets/images/product_2.jpeg
+  AssetGenImage get product2 =>
+      const AssetGenImage('assets/images/product_2.jpeg');
+
   /// List of all assets
-  List<AssetGenImage> get values => [icon, imageProduct, imageStore, logo];
+  List<AssetGenImage> get values => [
+    icon,
+    imageProduct,
+    imageStore,
+    logo,
+    product1,
+    product2,
+  ];
 }
 
 class $AssetsSvgGen {

@@ -27,7 +27,7 @@ class FinancialDetailView extends StatelessWidget {
       builder: (BuildContext context, FinancialDetailViewModel model, _) {
         return Scaffold(
           appBar: CustomAppBar(title: 'Detail Laporan Keuangan'),
-          backgroundColor: AppColors.white,
+          backgroundColor: AppColors.background,
           body: _buildBody(context, model),
         );
       },
@@ -71,9 +71,7 @@ Widget _buildBody(BuildContext context, FinancialDetailViewModel model) {
               maxLines: 2,
             ),
             Text(
-              Formatter.date.dateTimeFull(
-                model.detailFinancial?.createdAt ?? '',
-              ),
+              Formatter.date.dateTime(model.detailFinancial?.createdAt ?? ''),
               style: AppFonts.regular.copyWith(
                 color: AppColors.black,
                 fontSize: 12,
@@ -83,7 +81,7 @@ Widget _buildBody(BuildContext context, FinancialDetailViewModel model) {
             Text(
               model.detailFinancial?.description ?? '',
               style: AppFonts.regular.copyWith(
-                color: AppColors.darkGrey,
+                color: AppColors.black,
                 fontSize: 12,
               ),
             ),

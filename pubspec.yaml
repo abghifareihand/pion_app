@@ -59,6 +59,7 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^31.1.19
   open_filex: ^4.7.0
   html: ^0.15.6
+  carousel_slider: ^5.1.2
 
 dev_dependencies:
   flutter_test:

@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
             primary: AppColors.primary,
             secondary: AppColors.primary,
           ),
-          scaffoldBackgroundColor: AppColors.white,
+          scaffoldBackgroundColor: AppColors.background,
           bottomSheetTheme: BottomSheetThemeData(
             backgroundColor: AppColors.white,
           ),

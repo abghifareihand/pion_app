@@ -2,7 +2,7 @@
 
 import 'package:pion_app/features/base_view_model.dart';
 
-class LearnViewModel extends BaseViewModel {
+class LearningViewModel extends BaseViewModel {
 
   @override
   Future<void> initModel() async {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pion_app/ui/theme/app_colors.dart';
 import 'package:pion_app/ui/theme/app_fonts.dart';
+
 enum ButtonStyleType { filled, outlined }
 
 class Button extends StatelessWidget {
@@ -69,46 +70,79 @@ class Button extends StatelessWidget {
       child:
           style == ButtonStyleType.filled
               ? ElevatedButton(
-                onPressed: isLoading ? null : onPressed,
+                onPressed: (disabled || isLoading) ? null : onPressed,
                 style: ElevatedButton.styleFrom(
-                  padding: padding,
-                  backgroundColor: color,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius)),
+                  padding: EdgeInsets.zero, // penting
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                  ),
                 ),
-                child:
-                    isLoading
-                        ? SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(strokeWidth: 2, color: textColor),
-                        )
-                        : Text(
-                          label,
-                          style: AppFonts.semiBold.copyWith(color: textColor, fontSize: fontSize),
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                        ),
+                child: Ink(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors:
+                          disabled
+                              ? [Colors.grey.shade400, Colors.grey.shade500]
+                              : const [AppColors.primary, AppColors.secondary],
+                    ),
+                    borderRadius: BorderRadius.circular(borderRadius),
+                  ),
+                  child: Container(
+                    padding:
+                        padding ?? const EdgeInsets.symmetric(horizontal: 16),
+                    alignment: Alignment.center,
+                    child:
+                        isLoading
+                            ? SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: textColor,
+                              ),
+                            )
+                            : Text(
+                              label,
+                              style: AppFonts.semiBold.copyWith(
+                                color: textColor,
+                                fontSize: fontSize,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                            ),
+                  ),
+                ),
               )
               : OutlinedButton(
-                onPressed: isLoading ? null : onPressed,
+                onPressed: (disabled || isLoading) ? null : onPressed,
                 style: OutlinedButton.styleFrom(
                   padding: padding,
                   backgroundColor: color,
                   side: BorderSide(color: sideColor),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                  ),
                 ),
                 child:
                     isLoading
                         ? SizedBox(
                           width: 24,
                           height: 24,
-                          child: CircularProgressIndicator(strokeWidth: 2, color: textColor),
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: textColor,
+                          ),
                         )
                         : Text(
                           label,
-                          style: AppFonts.semiBold.copyWith(color: textColor, fontSize: fontSize),
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
+                          style: AppFonts.semiBold.copyWith(
+                            color: textColor,
+                            fontSize: fontSize,
+                          ),
                         ),
               ),
     );

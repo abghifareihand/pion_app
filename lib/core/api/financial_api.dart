@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:pion_app/core/models/financial_model.dart';
-import 'package:pion_app/core/models/information_model.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'financial_api.g.dart';
