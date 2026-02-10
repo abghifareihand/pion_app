@@ -22,7 +22,7 @@ class LoginView extends StatelessWidget {
       onModelDispose: (LoginViewModel model) => model.disposeModel(),
       builder: (BuildContext context, LoginViewModel model, _) {
         return Scaffold(
-          backgroundColor: AppColors.white,
+          backgroundColor: Colors.white,
           body: _buildBody(context, model),
         );
       },
@@ -36,7 +36,7 @@ Widget _buildBody(BuildContext context, LoginViewModel model) {
     children: [
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 32),
-        child: Assets.images.logo.image(width: 200, height: 200),
+        child: Assets.images.icon.image(width: 250, height: 250),
       ),
       CustomTextField(
         controller: model.usernameController,
