@@ -9,6 +9,7 @@ import 'package:pion_app/features/sp_pion/learning/learning_view.dart';
 import 'package:pion_app/features/sp_pion/organization/organization_view.dart';
 import 'package:pion_app/features/sp_pion/social/social_view.dart';
 import 'package:pion_app/features/sp_pion/sp_pion_view_model.dart';
+import 'package:pion_app/features/sp_pion/union/union_view.dart';
 import 'package:pion_app/features/sp_pion/vote/vote_view.dart';
 import 'package:pion_app/ui/shared/custom_appbar.dart';
 import 'package:pion_app/ui/shared/custom_carousel_slider.dart';
@@ -99,11 +100,11 @@ Widget _buildBody(BuildContext context, SpPionViewModel model) {
           ),
           menuButton(
             iconPath: Assets.svg.iconVotes.path,
-            title: 'Profil   Serikat',
+            title: 'Serikat Pegawai',
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => VoteView()),
+                MaterialPageRoute(builder: (_) => UnionView()),
               );
             },
           ),
@@ -129,7 +130,7 @@ Widget _buildBody(BuildContext context, SpPionViewModel model) {
           ),
           menuButton(
             iconPath: Assets.svg.iconChat.path,
-            title: 'Pesan Admin',
+            title: 'Pesan ke Admin',
             onPressed: () {
               Navigator.push(
                 context,

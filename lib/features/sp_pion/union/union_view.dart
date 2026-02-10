@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pion_app/core/api/social_api.dart';
+import 'package:pion_app/core/api/union_api.dart';
 import 'package:pion_app/features/base_view.dart';
-import 'package:pion_app/features/sp_pion/social/social_detail/social_detail_view.dart';
-import 'package:pion_app/features/sp_pion/social/social_view_model.dart';
+import 'package:pion_app/features/sp_pion/union/union_detail/union_detail_view.dart';
+import 'package:pion_app/features/sp_pion/union/union_view_model.dart';
 import 'package:pion_app/ui/shared/custom_appbar.dart';
 import 'package:pion_app/ui/shared/custom_shimmer.dart';
 import 'package:pion_app/ui/theme/app_colors.dart';
@@ -10,18 +10,18 @@ import 'package:pion_app/ui/theme/app_fonts.dart';
 import 'package:pion_app/ui/utils/formatter.dart';
 import 'package:provider/provider.dart';
 
-class SocialView extends StatelessWidget {
-  const SocialView({super.key});
+class UnionView extends StatelessWidget {
+  const UnionView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<SocialViewModel>(
-      model: SocialViewModel(socialApi: Provider.of<SocialApi>(context)),
-      onModelReady: (SocialViewModel model) => model.initModel(),
-      onModelDispose: (SocialViewModel model) => model.disposeModel(),
-      builder: (BuildContext context, SocialViewModel model, _) {
+    return BaseView<UnionViewModel>(
+      model: UnionViewModel(unionApi: Provider.of<UnionApi>(context)),
+      onModelReady: (UnionViewModel model) => model.initModel(),
+      onModelDispose: (UnionViewModel model) => model.disposeModel(),
+      builder: (BuildContext context, UnionViewModel model, _) {
         return Scaffold(
-          appBar: CustomAppBar(title: 'Program Sosial'),
+          appBar: CustomAppBar(title: 'Serikat Pegawai'),
           backgroundColor: AppColors.background,
           body: _buildBody(context, model),
         );
@@ -30,10 +30,10 @@ class SocialView extends StatelessWidget {
   }
 }
 
-Widget _buildBody(BuildContext context, SocialViewModel model) {
+Widget _buildBody(BuildContext context, UnionViewModel model) {
   return RefreshIndicator(
     onRefresh: () async {
-      await model.fetchListSocial();
+      await model.fetchListUnion();
     },
     child:
         model.isBusy
@@ -44,10 +44,10 @@ Widget _buildBody(BuildContext context, SocialViewModel model) {
               separatorBuilder: (_, _) => const SizedBox(height: 12),
               itemBuilder: (_, __) => CardShimmer(),
             )
-            : model.listSocial.isEmpty
+            : model.listUnion.isEmpty
             ? Center(
               child: Text(
-                'Belum ada program sosial',
+                'Belum ada profil serikat pegawai',
                 style: AppFonts.medium.copyWith(
                   fontSize: 14,
                   color: AppColors.darkGrey,
@@ -59,17 +59,17 @@ Widget _buildBody(BuildContext context, SocialViewModel model) {
                 parent: BouncingScrollPhysics(),
               ),
               padding: const EdgeInsets.all(20),
-              itemCount: model.listSocial.length,
+              itemCount: model.listUnion.length,
               separatorBuilder: (_, _) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
-                final data = model.listSocial[index];
+                final data = model.listUnion[index];
                 return InkWell(
                   borderRadius: BorderRadius.circular(8),
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SocialDetailView(id: data.id),
+                        builder: (context) => UnionDetailView(id: data.id),
                       ),
                     );
                   },
@@ -84,7 +84,7 @@ Widget _buildBody(BuildContext context, SocialViewModel model) {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Program Sosial',
+                          'Profil Serikat Pegawai',
                           style: AppFonts.medium.copyWith(
                             color: AppColors.black,
                             fontSize: 14,

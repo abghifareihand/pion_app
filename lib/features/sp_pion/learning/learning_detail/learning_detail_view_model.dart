@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:dio/dio.dart';
 import 'package:pion_app/core/api/learning_api.dart';
 import 'package:pion_app/core/models/api_model.dart';
@@ -7,41 +5,34 @@ import 'package:pion_app/core/models/learning_model.dart';
 import 'package:pion_app/features/base_view_model.dart';
 import 'package:retrofit/retrofit.dart';
 
-class LearningViewModel extends BaseViewModel {
-  LearningViewModel({required this.learningApi});
+class LearningDetailViewModel extends BaseViewModel {
+  LearningDetailViewModel({required this.learningApi, required this.id});
 
   final LearningApi learningApi;
-  List<LearningData> listLearning = [];
-  Timer? _debounce;
+  final int id;
+
+  LearningDetailData? detailLearning;
 
   @override
   Future<void> initModel() async {
     setBusy(true);
-    await fetchListLearning();
+    await fetchDetailLearning();
     super.initModel();
     setBusy(false);
   }
 
   @override
   Future<void> disposeModel() async {
-    _debounce?.cancel();
     super.disposeModel();
   }
 
-  void onSearchChanged(String query) {
-    _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 500), () {
-      fetchListLearning(search: query.isEmpty ? null : query);
-    });
-  }
-
-  Future<void> fetchListLearning({int? page, String? search}) async {
+  Future<void> fetchDetailLearning() async {
     setBusy(true);
     try {
-      final HttpResponse<LearningResponse> response = await learningApi
-          .getListLearning(page, search);
+      final HttpResponse<LearningDetailResponse> response = await learningApi
+          .getDetailLearning(id);
       if (response.response.statusCode == 200) {
-        listLearning = response.data.data;
+        detailLearning = response.data.data;
       }
     } on DioException catch (e) {
       final apiResponse = ApiResponse.fromJson(e.response!.data);

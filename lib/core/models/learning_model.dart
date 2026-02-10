@@ -81,6 +81,7 @@ class LearningDetailData {
     required this.id,
     required this.title,
     this.description,
+    this.imageUrl,
     required this.fileUrl,
     required this.createdAt,
     required this.updatedAt,
@@ -92,6 +93,7 @@ class LearningDetailData {
   final int id;
   final String title;
   final String? description;
+  final String? imageUrl;
   final String fileUrl;
   final String createdAt;
   final String updatedAt;

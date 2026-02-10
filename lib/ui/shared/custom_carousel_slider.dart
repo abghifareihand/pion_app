@@ -63,7 +63,7 @@ class _CustomCarouselSliderState extends State<CustomCarouselSlider> {
                                         errorBuilder: (_, __, ___) {
                                           // kalau gagal load network, fallback
                                           return Container(
-                                            color: AppColors.gray,
+                                            color: AppColors.white,
                                             alignment: Alignment.center,
                                             child: Assets.svg.iconPicture.svg(
                                               width: 50,

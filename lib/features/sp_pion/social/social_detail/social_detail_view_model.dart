@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:dio/dio.dart';
 import 'package:pion_app/core/api/social_api.dart';
 import 'package:pion_app/core/models/api_model.dart';
@@ -7,41 +5,34 @@ import 'package:pion_app/core/models/social_model.dart';
 import 'package:pion_app/features/base_view_model.dart';
 import 'package:retrofit/retrofit.dart';
 
-class SocialViewModel extends BaseViewModel {
-  SocialViewModel({required this.socialApi});
+class SocialDetailViewModel extends BaseViewModel {
+  SocialDetailViewModel({required this.socialApi, required this.id});
 
   final SocialApi socialApi;
-  List<SocialData> listSocial = [];
-  Timer? _debounce;
+  final int id;
+
+  SocialDetailData? detailSocial;
 
   @override
   Future<void> initModel() async {
     setBusy(true);
-    await fetchListSocial();
+    await fetchDetailSocial();
     super.initModel();
     setBusy(false);
   }
 
   @override
   Future<void> disposeModel() async {
-    _debounce?.cancel();
     super.disposeModel();
   }
 
-  void onSearchChanged(String query) {
-    _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 500), () {
-      fetchListSocial(search: query.isEmpty ? null : query);
-    });
-  }
-
-  Future<void> fetchListSocial({int? page, String? search}) async {
+  Future<void> fetchDetailSocial() async {
     setBusy(true);
     try {
-      final HttpResponse<SocialResponse> response = await socialApi
-          .getListSocial(page, search);
+      final HttpResponse<SocialDetailResponse> response = await socialApi
+          .getDetailSocial(id);
       if (response.response.statusCode == 200) {
-        listSocial = response.data.data;
+        detailSocial = response.data.data;
       }
     } on DioException catch (e) {
       final apiResponse = ApiResponse.fromJson(e.response!.data);

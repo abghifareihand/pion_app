@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:dio/dio.dart';
 import 'package:pion_app/core/api/organization_api.dart';
 import 'package:pion_app/core/models/api_model.dart';
@@ -7,41 +5,34 @@ import 'package:pion_app/core/models/organization_model.dart';
 import 'package:pion_app/features/base_view_model.dart';
 import 'package:retrofit/retrofit.dart';
 
-class OrganizationViewModel extends BaseViewModel {
-  OrganizationViewModel({required this.organizationApi});
+class OrganizationDetailViewModel extends BaseViewModel {
+  OrganizationDetailViewModel({required this.organizationApi, required this.id});
 
   final OrganizationApi organizationApi;
-  List<OrganizationData> listOrganization = [];
-  Timer? _debounce;
+  final int id;
+
+  OrganizationDetailData? detailOrganization;
 
   @override
   Future<void> initModel() async {
     setBusy(true);
-    await fetchListOrganization();
+    await fetchDetailOrganization();
     super.initModel();
     setBusy(false);
   }
 
   @override
   Future<void> disposeModel() async {
-    _debounce?.cancel();
     super.disposeModel();
   }
 
-  void onSearchChanged(String query) {
-    _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 500), () {
-      fetchListOrganization(search: query.isEmpty ? null : query);
-    });
-  }
-
-  Future<void> fetchListOrganization({int? page, String? search}) async {
+  Future<void> fetchDetailOrganization() async {
     setBusy(true);
     try {
-      final HttpResponse<OrganizationResponse> response = await organizationApi
-          .getListOrganization(page, search);
+      final HttpResponse<OrganizationDetailResponse> response = await organizationApi
+          .getDetailOrganization(id);
       if (response.response.statusCode == 200) {
-        listOrganization = response.data.data;
+        detailOrganization = response.data.data;
       }
     } on DioException catch (e) {
       final apiResponse = ApiResponse.fromJson(e.response!.data);

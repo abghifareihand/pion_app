@@ -1,36 +1,36 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'organization_model.g.dart';
+part 'union_model.g.dart';
 
-// List Organization
+// List Union
 @JsonSerializable(fieldRename: FieldRename.snake)
-class OrganizationResponse {
-  const OrganizationResponse({
+class UnionResponse {
+  const UnionResponse({
     required this.status,
     required this.message,
     required this.data,
     required this.meta,
   });
 
-  factory OrganizationResponse.fromJson(Map<String, dynamic> json) =>
-      _$OrganizationResponseFromJson(json);
+  factory UnionResponse.fromJson(Map<String, dynamic> json) =>
+      _$UnionResponseFromJson(json);
 
   final bool status;
   final String message;
-  final List<OrganizationData> data;
+  final List<UnionData> data;
   final Meta meta;
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class OrganizationData {
-  const OrganizationData({
+class UnionData {
+  const UnionData({
     required this.id,
     required this.title,
     required this.createdAt,
   });
 
-  factory OrganizationData.fromJson(Map<String, dynamic> json) =>
-      _$OrganizationDataFromJson(json);
+  factory UnionData.fromJson(Map<String, dynamic> json) =>
+      _$UnionDataFromJson(json);
 
   final int id;
   final String title;
@@ -58,26 +58,26 @@ class Meta {
   final String? prevPageUrl;
 }
 
-// Detail Organization
+// Detail Union
 @JsonSerializable(fieldRename: FieldRename.snake)
-class OrganizationDetailResponse {
-  const OrganizationDetailResponse({
+class UnionDetailResponse {
+  const UnionDetailResponse({
     required this.status,
     required this.message,
     required this.data,
   });
 
-  factory OrganizationDetailResponse.fromJson(Map<String, dynamic> json) =>
-      _$OrganizationDetailResponseFromJson(json);
+  factory UnionDetailResponse.fromJson(Map<String, dynamic> json) =>
+      _$UnionDetailResponseFromJson(json);
 
   final bool status;
   final String message;
-  final OrganizationDetailData data;
+  final UnionDetailData data;
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class OrganizationDetailData {
-  const OrganizationDetailData({
+class UnionDetailData {
+  const UnionDetailData({
     required this.id,
     required this.title,
     this.description,
@@ -87,8 +87,8 @@ class OrganizationDetailData {
     required this.updatedAt,
   });
 
-  factory OrganizationDetailData.fromJson(Map<String, dynamic> json) =>
-      _$OrganizationDetailDataFromJson(json);
+  factory UnionDetailData.fromJson(Map<String, dynamic> json) =>
+      _$UnionDetailDataFromJson(json);
 
   final int id;
   final String title;

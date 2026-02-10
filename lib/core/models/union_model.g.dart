@@ -1,23 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'financial_model.dart';
+part of 'union_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-FinancialResponse _$FinancialResponseFromJson(Map<String, dynamic> json) =>
-    FinancialResponse(
+UnionResponse _$UnionResponseFromJson(Map<String, dynamic> json) =>
+    UnionResponse(
       status: json['status'] as bool,
       message: json['message'] as String,
       data:
           (json['data'] as List<dynamic>)
-              .map((e) => FinancialData.fromJson(e as Map<String, dynamic>))
+              .map((e) => UnionData.fromJson(e as Map<String, dynamic>))
               .toList(),
       meta: Meta.fromJson(json['meta'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$FinancialResponseToJson(FinancialResponse instance) =>
+Map<String, dynamic> _$UnionResponseToJson(UnionResponse instance) =>
     <String, dynamic>{
       'status': instance.status,
       'message': instance.message,
@@ -25,19 +25,17 @@ Map<String, dynamic> _$FinancialResponseToJson(FinancialResponse instance) =>
       'meta': instance.meta,
     };
 
-FinancialData _$FinancialDataFromJson(Map<String, dynamic> json) =>
-    FinancialData(
-      id: (json['id'] as num).toInt(),
-      title: json['title'] as String,
-      createdAt: json['created_at'] as String,
-    );
+UnionData _$UnionDataFromJson(Map<String, dynamic> json) => UnionData(
+  id: (json['id'] as num).toInt(),
+  title: json['title'] as String,
+  createdAt: json['created_at'] as String,
+);
 
-Map<String, dynamic> _$FinancialDataToJson(FinancialData instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'title': instance.title,
-      'created_at': instance.createdAt,
-    };
+Map<String, dynamic> _$UnionDataToJson(UnionData instance) => <String, dynamic>{
+  'id': instance.id,
+  'title': instance.title,
+  'created_at': instance.createdAt,
+};
 
 Meta _$MetaFromJson(Map<String, dynamic> json) => Meta(
   currentPage: (json['current_page'] as num).toInt(),
@@ -57,24 +55,23 @@ Map<String, dynamic> _$MetaToJson(Meta instance) => <String, dynamic>{
   'prev_page_url': instance.prevPageUrl,
 };
 
-FinancialDetailResponse _$FinancialDetailResponseFromJson(
-  Map<String, dynamic> json,
-) => FinancialDetailResponse(
-  status: json['status'] as bool,
-  message: json['message'] as String,
-  data: FinancialDetailData.fromJson(json['data'] as Map<String, dynamic>),
-);
+UnionDetailResponse _$UnionDetailResponseFromJson(Map<String, dynamic> json) =>
+    UnionDetailResponse(
+      status: json['status'] as bool,
+      message: json['message'] as String,
+      data: UnionDetailData.fromJson(json['data'] as Map<String, dynamic>),
+    );
 
-Map<String, dynamic> _$FinancialDetailResponseToJson(
-  FinancialDetailResponse instance,
+Map<String, dynamic> _$UnionDetailResponseToJson(
+  UnionDetailResponse instance,
 ) => <String, dynamic>{
   'status': instance.status,
   'message': instance.message,
   'data': instance.data,
 };
 
-FinancialDetailData _$FinancialDetailDataFromJson(Map<String, dynamic> json) =>
-    FinancialDetailData(
+UnionDetailData _$UnionDetailDataFromJson(Map<String, dynamic> json) =>
+    UnionDetailData(
       id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       description: json['description'] as String?,
@@ -84,14 +81,13 @@ FinancialDetailData _$FinancialDetailDataFromJson(Map<String, dynamic> json) =>
       updatedAt: json['updated_at'] as String,
     );
 
-Map<String, dynamic> _$FinancialDetailDataToJson(
-  FinancialDetailData instance,
-) => <String, dynamic>{
-  'id': instance.id,
-  'title': instance.title,
-  'description': instance.description,
-  'image_url': instance.imageUrl,
-  'file_url': instance.fileUrl,
-  'created_at': instance.createdAt,
-  'updated_at': instance.updatedAt,
-};
+Map<String, dynamic> _$UnionDetailDataToJson(UnionDetailData instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'description': instance.description,
+      'image_url': instance.imageUrl,
+      'file_url': instance.fileUrl,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+    };

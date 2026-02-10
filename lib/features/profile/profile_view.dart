@@ -96,7 +96,6 @@ Widget _buildBody(BuildContext context, ProfileViewModel model) {
         },
         label: 'Logout',
         color: Colors.red,
-        isLoading: model.isBusy,
       ),
     ],
   );

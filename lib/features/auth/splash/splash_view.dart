@@ -13,7 +13,7 @@ class SplashView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseView<SplashViewModel>(
       model: SplashViewModel(),
-      onModelReady: ( model) async {
+      onModelReady: (model) async {
         await model.initModel();
 
         // Navigasi setelah initModel selesai
@@ -25,7 +25,10 @@ class SplashView extends StatelessWidget {
           // }
           if (model.hasToken) {
             // ✅ Token ada -> HomeView
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeView()));
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const HomeView()),
+            );
           } else {
             // ❌ Token kosong -> LoginView
             Navigator.pushReplacement(
@@ -47,14 +50,5 @@ class SplashView extends StatelessWidget {
 }
 
 Widget _buildBody(BuildContext context, SplashViewModel model) {
-  return Center(
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Assets.images.logo.image(width: 200, height: 200),
-        const SizedBox(height: 24),
-        const CircularProgressIndicator(),
-      ],
-    ),
-  );
+  return Center(child: Assets.images.icon.image(width: 200, height: 200));
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pion_app/core/api/financial_api.dart';
+import 'package:pion_app/core/api/union_api.dart';
 import 'package:pion_app/core/assets/assets.gen.dart';
 import 'package:pion_app/features/base_view.dart';
-import 'package:pion_app/features/sp_pion/financial/financial_detail/financial_detail_view_model.dart';
+import 'package:pion_app/features/sp_pion/union/union_detail/union_detail_view_model.dart';
 import 'package:pion_app/ui/shared/button_preview.dart';
 import 'package:pion_app/ui/shared/custom_appbar.dart';
 import 'package:pion_app/ui/theme/app_colors.dart';
@@ -11,22 +11,22 @@ import 'package:pion_app/ui/utils/formatter.dart';
 import 'package:pion_app/ui/utils/pdf_preview.dart';
 import 'package:provider/provider.dart';
 
-class FinancialDetailView extends StatelessWidget {
+class UnionDetailView extends StatelessWidget {
   final int id;
-  const FinancialDetailView({super.key, required this.id});
+  const UnionDetailView({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<FinancialDetailViewModel>(
-      model: FinancialDetailViewModel(
-        financialApi: Provider.of<FinancialApi>(context),
+    return BaseView<UnionDetailViewModel>(
+      model: UnionDetailViewModel(
+        unionApi: Provider.of<UnionApi>(context),
         id: id,
       ),
-      onModelReady: (FinancialDetailViewModel model) => model.initModel(),
-      onModelDispose: (FinancialDetailViewModel model) => model.disposeModel(),
-      builder: (BuildContext context, FinancialDetailViewModel model, _) {
+      onModelReady: (UnionDetailViewModel model) => model.initModel(),
+      onModelDispose: (UnionDetailViewModel model) => model.disposeModel(),
+      builder: (BuildContext context, UnionDetailViewModel model, _) {
         return Scaffold(
-          appBar: CustomAppBar(title: 'Detail Laporan Keuangan'),
+          appBar: CustomAppBar(title: 'Detail Serikat Pegawai'),
           backgroundColor: AppColors.background,
           body: _buildBody(context, model),
         );
@@ -35,13 +35,13 @@ class FinancialDetailView extends StatelessWidget {
   }
 }
 
-Widget _buildBody(BuildContext context, FinancialDetailViewModel model) {
+Widget _buildBody(BuildContext context, UnionDetailViewModel model) {
   if (model.isBusy) {
     return const Center(
       child: CircularProgressIndicator(color: AppColors.primary),
     );
   }
-  final imageUrl = model.detailFinancial?.imageUrl;
+  final imageUrl = model.detailUnion?.imageUrl;
   return ListView(
     children: [
       // Image / fallback icon
@@ -90,7 +90,7 @@ Widget _buildBody(BuildContext context, FinancialDetailViewModel model) {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              model.detailFinancial?.title ?? '',
+              model.detailUnion?.title ?? '',
               style: AppFonts.semiBold.copyWith(
                 color: AppColors.black,
                 fontSize: 14,
@@ -99,7 +99,7 @@ Widget _buildBody(BuildContext context, FinancialDetailViewModel model) {
               maxLines: 2,
             ),
             Text(
-              Formatter.date.dateTime(model.detailFinancial?.createdAt ?? ''),
+              Formatter.date.dateTime(model.detailUnion?.createdAt ?? ''),
               style: AppFonts.regular.copyWith(
                 color: AppColors.black,
                 fontSize: 12,
@@ -107,7 +107,7 @@ Widget _buildBody(BuildContext context, FinancialDetailViewModel model) {
             ),
             const SizedBox(height: 16.0),
             Text(
-              model.detailFinancial?.description ?? '',
+              model.detailUnion?.description ?? '',
               style: AppFonts.regular.copyWith(
                 color: AppColors.black,
                 fontSize: 12,
@@ -122,7 +122,7 @@ Widget _buildBody(BuildContext context, FinancialDetailViewModel model) {
       Center(
         child: ButtonPreview(
           onTap: () {
-            final fileUrl = model.detailFinancial?.fileUrl;
+            final fileUrl = model.detailUnion?.fileUrl;
             if (fileUrl != null && fileUrl.isNotEmpty) {
               Navigator.of(context).push(
                 MaterialPageRoute(
